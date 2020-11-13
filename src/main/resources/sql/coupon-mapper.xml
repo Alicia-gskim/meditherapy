@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkg.meditherapy.coupon.mapper.CouponMapper">
+	<select id="getDual" resultType="java.lang.String">
+		SELECT NOW()
+		FROM DUAL
+	</select>
+	<select id="selectList" resultType="CouponModel">
+		SELECT 
+			CAFE24_MEMBER_ID 
+			, CATEGORY 
+			, CDATE 
+			, DETAIL_IMAGE 
+			, DISCOUNTPRICE 
+			, DISPLAY 
+			, DOWNLOAD_FILES 
+			, IDX 
+			, LIST_IMAGE 
+			, MALL_ID 
+			, MDATE 
+			, OPTION_CODE 
+			, ORIGIN_CLASSIFICATION 
+			, ORIGIN_PLACE_NO 
+			, ORIGIN_PLACE_VALUE 
+			, PRICE 
+			, PRODUCT_CODE 
+			, PRODUCT_NAME 
+			, PRODUCT_NO 
+			, SELLING 
+			, SERIAL_ID 
+			, SMALL_IMAGE 
+			, SOLD_OUT 
+			, SUMMARY_DESCRIPTION 
+			, TARGET_PRODUCT 
+			, TINY_IMAGE 
+			, TITLE 
+			, USE_LIMIT_DATE
+			, USE_LIMIT_DAY
+			, USE_LIMIT_PRICE
+		FROM COUPON
+	</select>
+</mapper>
