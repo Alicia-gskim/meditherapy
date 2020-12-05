@@ -10,9 +10,7 @@ import lombok.Setter;
 public class CouponModel implements Serializable {
 	private static final long serialVersionUID = -5581589360728347575L;
 	
-	private String cafe24MemberId;
 	private int category;
-	private String cdate;
 	private String detailImage;
 	private String discountprice;
 	private String display;
@@ -40,4 +38,8 @@ public class CouponModel implements Serializable {
 	private String useLimitDate;
 	private String useLimitDay;
 	private String useLimitPrice;
+	
+	private String couponId;
+	private String limitDay;
+	private String remainingDay;
 }

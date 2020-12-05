@@ -12,6 +12,7 @@
 	
 	<typeAliases>
 		<typeAlias type="com.pkg.meditherapy.coupon.model.CouponModel" alias="CouponModel"/>
+		<typeAlias type="com.pkg.meditherapy.coupon.model.IssuingCoupons" alias="IssuingCoupons"/>
 	</typeAliases>
 	
 	<typeHandlers>

@@ -6,38 +6,77 @@
 		SELECT NOW()
 		FROM DUAL
 	</select>
-	<select id="selectList" resultType="CouponModel">
-		SELECT 
-			CAFE24_MEMBER_ID 
-			, CATEGORY 
-			, CDATE 
-			, DETAIL_IMAGE 
-			, DISCOUNTPRICE 
-			, DISPLAY 
-			, DOWNLOAD_FILES 
-			, IDX 
-			, LIST_IMAGE 
-			, MALL_ID 
-			, MDATE 
-			, OPTION_CODE 
-			, ORIGIN_CLASSIFICATION 
-			, ORIGIN_PLACE_NO 
-			, ORIGIN_PLACE_VALUE 
-			, PRICE 
-			, PRODUCT_CODE 
-			, PRODUCT_NAME 
-			, PRODUCT_NO 
-			, SELLING 
-			, SERIAL_ID 
-			, SMALL_IMAGE 
-			, SOLD_OUT 
-			, SUMMARY_DESCRIPTION 
-			, TARGET_PRODUCT 
-			, TINY_IMAGE 
-			, TITLE 
-			, USE_LIMIT_DATE
-			, USE_LIMIT_DAY
-			, USE_LIMIT_PRICE
-		FROM COUPON
+	<select id="checkCouponsById" parameterType="IssuingCoupons" resultType="string">
+		SELECT
+			COUPON_ID
+		FROM COUPONiSSUANCE
+		WHERE USER_ID = #{userId}
 	</select>
+	<select id="getIssuingCoupons" parameterType="IssuingCoupons" resultType="int">
+		SELECT
+			COUNT(1) CNT
+		FROM COUPONISSUANCE
+		WHERE USER_ID = #{userId}
+		<if test="couponId != 'couponA'">
+		AND COUPON_ID = #{couponId}
+		</if>
+	</select>
+	<insert id="insertIssuingCoupons" parameterType="IssuingCoupons">
+		INSERT INTO COUPONISSUANCE (
+			USER_ID
+			, COUPON_ID
+			, USE_FLAG
+			, ISSUE_DATE
+		) VALUES (
+			#{userId},
+			#{couponId},
+			'N',
+			NOW()
+		)
+	</insert>
+	<select id="selectList" parameterType="IssuingCoupons" resultType="CouponModel">
+		SELECT 
+			DATE_ADD(B.ISSUE_DATE, INTERVAL 90 DAY) LIMIT_DAY
+			, DATEDIFF(DATE_ADD(B.ISSUE_DATE, INTERVAL 90 DAY), NOW()) REMAINING_DAY
+			, A.CATEGORY 
+			, A.DETAIL_IMAGE 
+			, A.DISCOUNTPRICE 
+			, A.DISPLAY 
+			, A.DOWNLOAD_FILES 
+			, A.IDX 
+			, A.LIST_IMAGE 
+			, A.MALL_ID 
+			, A.MDATE 
+			, A.OPTION_CODE 
+			, A.ORIGIN_CLASSIFICATION 
+			, A.ORIGIN_PLACE_NO 
+			, A.ORIGIN_PLACE_VALUE 
+			, A.PRICE 
+			, A.PRODUCT_CODE 
+			, A.PRODUCT_NAME 
+			, A.PRODUCT_NO 
+			, A.SELLING 
+			, A.SERIAL_ID 
+			, A.SMALL_IMAGE 
+			, A.SOLD_OUT 
+			, A.SUMMARY_DESCRIPTION 
+			, A.TARGET_PRODUCT 
+			, A.TINY_IMAGE 
+			, A.TITLE 
+			, A.USE_LIMIT_DATE
+			, A.USE_LIMIT_DAY
+			, A.USE_LIMIT_PRICE
+			, A.COUPON_ID
+		FROM COUPON A, COUPONISSUANCE B
+		WHERE A.COUPON_ID = B.COUPON_ID
+		AND B.USE_FLAG = 'N'
+		AND B.USER_ID = #{userId}
+	</select>
+	
+	<update id="usingCoupon" parameterType="IssuingCoupons">
+		UPDATE COUPONISSUANCE
+		SET USE_FLAG = 'Y'
+		WHERE USER_ID = #{userId}
+		AND COUPON_ID = #{couponId}
+	</update>
 </mapper>

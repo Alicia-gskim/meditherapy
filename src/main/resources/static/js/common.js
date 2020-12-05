@@ -1,15 +1,22 @@
 /**
  * 
- */
+ */ 
 var CallAjax = function() {
 	var f = {};
 	var o = {
 			$f: jQuery(f),
-			type: 'post',
 			dataType: 'json',
-			async: true,
-			cache: false,
-			contentType: "application/json; charset=UTF-8"
+			headers: {
+				"Content-Type": "application/javascript",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "Content-Type"
+			}
+	};
+	f.type = function(type) {
+		o.type = type;
+		
+		return f;
 	};
 	f.url= function(url) {
 		o.url = url;
@@ -28,24 +35,20 @@ var CallAjax = function() {
 	};
 	f.call = function call() {
 		$.ajax({
-			type: o.type,
-			dataType: o.dataType,
-			async: o.async,
-			cache: o.cache,
-			contentType: o.contentType,
+			contentType: "application/javascript",
+ 			type: o.type,
+ 			dataType: o.dataType,
+ 			header: o.header,
 			url: o.url,
 			data: o.param,
+			crossDomain: true,
 			success: function(data, status, xhr) {
-				if( status == "success" && xhr.status == 200 ) {
-					if( typeof(o.success) == "function" ) {
-						o.success(data);
-					} else {
-						eval(o.success + "(data);");
-					}
-				}
+				console.log("ajax success : " + data + " : " + status + " : " + xhr)
+				
+				o.success(data);
 			},
 			error: function(xhr, status, errorThrown) {
-				alert("ajax 통신 오류 : " + xhr.status + " : " + status + " : " + errorThrown);
+				console.log("ajax fail : " + xhr.status + " : " + status + " : " + errorThrown);
 			}
 		});
 	}
